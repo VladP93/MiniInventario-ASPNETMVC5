@@ -1,0 +1,134 @@
+﻿@model IEnumerable<InventarioEntidades.Productos>
+
+@{
+    ViewBag.Title = "Productos Admin";
+}
+<div class="panel">
+    <div class="panel-title">
+        <h1>
+            Administracion de productos
+        </h1>
+    </div>
+    <div class="panel-body">
+        <p>
+            <button type="button" id="btnCrearProducto" class="btn btn-primary" data-toggle="modal" data-target="#modalCrear">Adicionar producto</button>
+        </p>
+    </div>
+    <table id="tbProductos" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.id_producto)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.nombre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.precio)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.stock)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.categoria)
+                </th>
+                <th>
+
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var producto in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => producto.id_producto)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => producto.nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => producto.precio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => producto.stock)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => producto.categoria)
+                    </td>
+                    <td>
+                        <a href="#" class="btn btn-danger Editar" id="@producto.categoria" data-toggle="modal" data-target="#modalEditar">Editar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="modalCrear">
+    <div class="modal-dialog modal-lg miModal" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div id="dvCrearProductos"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalEditar">
+    <div class="modal-dialog modal-lg miModal" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div id="dvModificarProductos"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#btnCrearProducto").click(function () {
+                var _url = "http://localhost:54503/" + 'Productos/Crear/'
+                $.ajax({
+                    type: "Get",
+                    url: _url,
+                    data: {},
+                    async: false,
+                    success: function (response) {
+                        $('#dvCrearProductos').html(response);
+                    },
+                    error: function (response) {
+                        if (response.responseText != "") {
+                            alert(response.responseText);
+                        }
+                    }
+                });
+            });
+
+            $('.Editar').on("click", function () {
+                var productoId = $(this).attr("id");
+                var _url = "http://localhost:54503/" + 'Productos/Editar/' + productoId;
+                $.ajax({
+                    type: "Get",
+                    url: _url,
+                    data: {},
+                    async: false,
+                    success: function (response) {
+                        $('#dvModificarProductos').html(response);
+                    },
+                    error: function (response) {
+                        if (response.responseText != "") {
+                            alert(response.responseText);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+    }
+
+
+
+
+

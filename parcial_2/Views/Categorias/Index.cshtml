@@ -1,0 +1,121 @@
+﻿@model IEnumerable<InventarioEntidades.Categorias>
+
+@{
+    ViewBag.Title = "Categorias Admin";
+}
+
+<div class="panel">
+    <div class="panel-title">
+        <h1>
+            Administracion de categorias
+        </h1>
+    </div>
+    <div class="panel-body">
+        <p>
+            <button type="button" id="btnCrearCategoria" class="btn btn-primary" data-toggle="modal" data-target="#modalCrear">Adicionar categoria</button>
+        </p>
+    </div>
+    <table id="tbProductos" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.id_categoria)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.nombre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.descripcion)
+                </th>
+             
+                <th>
+
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var categoria in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => categoria.id_categoria)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => categoria.nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => categoria.descripcion)
+                    </td>
+                    <td>
+                        <a href="#" class="btn btn-danger Editar" id="@categoria.id_categoria" data-toggle="modal" data-target="#modalEditar">Editar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="modalCrear">
+    <div class="modal-dialog modal-lg miModal" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div id="dvCrearCategoria"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalEditar">
+    <div class="modal-dialog modal-lg miModal" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div id="dvModificarCategorias"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#btnCrearCategoria").click(function () {
+                var _url = "http://localhost:54503/" + 'Categorias/Crear/'
+                $.ajax({
+                    type: "Get",
+                    url: _url,
+                    data: {},
+                    async: false,
+                    success: function (response) {
+                        $('#dvCrearCategoria').html(response);
+                    },
+                    error: function (response) {
+                        if (response.responseText != "") {
+                            alert("algo sucedió "+response.responseText);
+                        }
+                    }
+                });
+            });
+
+            $('.Editar').on("click", function () {
+                var categoriaId = $(this).attr("id");
+                var _url = "http://localhost:54503/" + 'Categorias/Editar/' + categoriaId;
+                $.ajax({
+                    type: "Get",
+                    url: _url,
+                    data: {},
+                    async: false,
+                    success: function (response) {
+                        $('#dvModificarCategorias').html(response);
+                    },
+                    error: function (response) {
+                        if (response.responseText != "") {
+                            alert(response.responseText);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+

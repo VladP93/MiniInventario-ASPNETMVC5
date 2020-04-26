@@ -1,0 +1,140 @@
+﻿@model IEnumerable<InventarioEntidades.Clientes>
+
+@{
+    ViewBag.Title = "Clientes Admin";
+}
+
+
+<div class="panel">
+    <div class="panel-title">
+        <h1>
+            Administracion de clientes
+        </h1>
+    </div>
+    <div class="panel-body">
+        <p>
+            <button type="button" id="btnCrearCliente" class="btn btn-primary" data-toggle="modal" data-target="#modalCrear">Adicionar cliente</button>
+        </p>
+    </div>
+    <table id="tbClientes" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.id_cliente)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.nombre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.apellido)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.direccion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.fecha_nacimiento)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.telefono)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.email)
+                </th>
+                <th>
+
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cliente in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => cliente.id_cliente)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => cliente.nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => cliente.apellido)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => cliente.fecha_nacimiento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => cliente.telefono)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => cliente.email)
+                </td>
+                <td>
+                    <a href="#" class="btn btn-danger Editar" id="@cliente.id_cliente" data-toggle="modal" data-target="#modalEditar">Editar</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="modalCrear">
+    <div class="modal-dialog modal-lg miModal" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div id="dvCrearCliente"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalEditar">
+    <div class="modal-dialog modal-lg miModal" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div id="dvModificarClientes"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#btnCrearCliente").click(function () {
+                var _url = "http://localhost:54503/" + 'Clientes/Crear/'
+                $.ajax({
+                    type: "Get",
+                    url: _url,
+                    data: {},
+                    async: false,
+                    success: function (response) {
+                        $('#dvCrearCliente').html(response);
+                    },
+                    error: function (response) {
+                        if (response.responseText != "") {
+                            alert(response.responseText);
+                        }
+                    }
+                });
+            });
+
+            $('.Editar').on("click", function () {
+                var clienteId = $(this).attr("id");
+                var _url = "http://localhost:54503/" + 'Clientes/Editar/' + clienteId;
+                $.ajax({
+                    type: "Get",
+                    url: _url,
+                    data: {},
+                    async: false,
+                    success: function (response) {
+                        $('#dvModificarClientes').html(response);
+                    },
+                    error: function (response) {
+                        if (response.responseText != "") {
+                            alert(response.responseText);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}
