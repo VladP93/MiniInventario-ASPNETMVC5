@@ -18,5 +18,32 @@ namespace parcial_2.Controllers
             return View(_categorias);
         }
 
+        [HttpGet]
+        public ActionResult Crear()
+        {
+            var categoria = new entidades.Categorias();
+            return PartialView("Crear", categoria);
+        }
+
+        [HttpPost]
+        public ActionResult Crear(entidades.Categorias categoria)
+        {
+            new dominio.Categorias().CrearCategoria(categoria);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult Editar(int id)
+        {
+            var _categoria = new dominio.Categorias().CategoriasPorId(id);
+            return PartialView(_categoria);
+        }
+
+        [HttpPost]
+        public ActionResult Editar(entidades.Categorias categoriaEditada)
+        {
+            new dominio.Categorias().ModificarCategoria(categoriaEditada);
+            return RedirectToAction("Index");
+        }
     }
 }
