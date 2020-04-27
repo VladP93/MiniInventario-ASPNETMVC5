@@ -43,12 +43,20 @@
         <div class="form-group">
             @Html.LabelFor(model => model.categoria, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @{ 
-                    List<InventarioEntidades.Categorias> cats = (List<InventarioEntidades.Categorias>)new InventarioDominio.Categorias().CategoriasList();
-                    List<SelectListItem> list = (List<SelectListItem>)cats.Select(x => new SelectListItem{Value = x.id_categoria.ToString(), Text = x.nombre});
-
+                @{
+                    var categorias = new InventarioDominio.Categorias().CategoriasList();
+                    List<SelectListItem> listItems = new List<SelectListItem>();
+                    foreach(InventarioEntidades.Categorias c in categorias)
+                    {
+                        listItems.Add(new SelectListItem
+                        {
+                            Text = c.nombre,
+                            Value = c.id_categoria.ToString()
+                        });
+                    }
                 }
-                @Html.DropDownListFor(model => model.categoria, list, "-- Seleccione Categoria --")
+
+                @Html.DropDownListFor(model => model.categoria, listItems, "-- Seleccione Categoria --")
             </div>
         </div>
 
