@@ -1,4 +1,5 @@
 ﻿@model InventarioEntidades.Productos
+@using parcial_2.Controllers;
 
 @using (Html.BeginForm()) 
 {
@@ -41,9 +42,10 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.categoria, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.id_categoria, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @{
+                    /*
                     var categorias = new InventarioDominio.Categorias().CategoriasList();
                     List<SelectListItem> listItems = new List<SelectListItem>();
                     foreach(InventarioEntidades.Categorias c in categorias)
@@ -54,9 +56,12 @@
                             Value = c.id_categoria.ToString()
                         });
                     }
+                    */
+                    ProductosController pc = new ProductosController();
+
                 }
 
-                @Html.DropDownListFor(model => model.categoria, listItems, "-- Seleccione Categoria --")
+                @Html.DropDownListFor(model => model.id_categoria, pc.getCategorias(), "-- Seleccione Categoria --")
             </div>
         </div>
 

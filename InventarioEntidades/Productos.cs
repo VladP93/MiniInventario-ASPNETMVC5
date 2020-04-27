@@ -13,5 +13,6 @@ namespace InventarioEntidades
         public double precio { get; set; }
         public int stock { get; set; }
         public Categorias categoria { get; set; }
+        public int id_categoria { get; set; }
     }
 }

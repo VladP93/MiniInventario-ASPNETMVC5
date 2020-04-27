@@ -54,7 +54,7 @@
                         @Html.DisplayFor(modelItem => producto.stock)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => producto.categoria)
+                        @Html.DisplayFor(modelItem => producto.categoria.nombre)
                     </td>
                     <td>
                         <a href="#" class="btn btn-danger Editar" id="@producto.categoria" data-toggle="modal" data-target="#modalEditar">Editar</a>
