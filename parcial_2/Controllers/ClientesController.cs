@@ -17,5 +17,33 @@ namespace parcial_2.Controllers
             var _clientes = new dominio.Clientes().CLientesList();
             return View(_clientes);
         }
+
+        [HttpGet]
+        public ActionResult Crear()
+        {
+            var cliente = new entidades.Clientes();
+            return PartialView("Crear", cliente);
+        }
+
+        [HttpPost]
+        public ActionResult Crear(entidades.Clientes cliente)
+        {
+            new dominio.Clientes().CrearCliente(cliente);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult Editar(int id)
+        {
+            var _cliente = new dominio.Clientes().ClientesPorId(id);
+            return PartialView(_cliente);
+        }
+
+        [HttpPost]
+        public ActionResult Editar(entidades.Clientes clienteEditado)
+        {
+            new dominio.Clientes().ModificarCliente(clienteEditado);
+            return RedirectToAction("Index");
+        }
     }
 }
